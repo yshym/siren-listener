@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import asyncio
+from datetime import datetime
 from decouple import config, Csv
 from telethon import TelegramClient, events
 from twilio.base.exceptions import TwilioRestException
@@ -25,6 +26,9 @@ twilio_from_phone_number = config("TWILIO_FROM_PHONE_NUMBER")
 twilio_to_phone_number = config("TWILIO_TO_PHONE_NUMBER")
 twilio_client = TwilioClient(twilio_sid, twilio_auth_token)
 
+last_message_time = None
+TIMEOUT_SECONDS = 300
+
 print(f"Connecting to channels {channels}")
 
 
@@ -32,8 +36,20 @@ print(f"Connecting to channels {channels}")
     events.NewMessage(chats=channel_links, pattern=r"(?i).*(тривога|сирена).*")
 )
 async def handler(event):
+    global last_message_time
     text = event.message.message
     print(f"telegram: message caught - '{text}'")
+    print(f"bot: last message time is {last_message_time}")
+    time_now = datetime.now()
+    if (
+        last_message_time
+        and (time_now - last_message_time).seconds < TIMEOUT_SECONDS
+    ):
+        last_message_time = time_now
+        print(f"bot: last message was cauth less than {TIMEOUT_SECONDS} seconds ago")
+        return
+    else:
+        last_message_time = time_now
     try:
         twilio_client.calls.create(
             to=twilio_to_phone_number,
