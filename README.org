@@ -1,1 +1,3 @@
 #+TITLE: siren-listener
+
+Checks telegram channels for information about a siren
