@@ -33,7 +33,7 @@ print(f"Connecting to channels {channels}")
 
 
 @telegram_client.on(
-    events.NewMessage(chats=channel_links, pattern=r"(?i).*(тривога|сирена).*")
+    events.NewMessage(chats=channel_links, pattern=r"(?i).*(тривога|сирена)")
 )
 async def handler(event):
     global last_message_time
@@ -46,7 +46,9 @@ async def handler(event):
         and (time_now - last_message_time).seconds < TIMEOUT_SECONDS
     ):
         last_message_time = time_now
-        print(f"bot: last message was cauth less than {TIMEOUT_SECONDS} seconds ago")
+        print(
+            f"bot: last message was cauth less than {TIMEOUT_SECONDS} seconds ago"
+        )
         return
     else:
         last_message_time = time_now
