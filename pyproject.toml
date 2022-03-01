@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "siren-listener"
+version = "0.1.0"
+description = ""
+authors = ["Yevhen Shymotiuk <yshym@pm.me>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+Telethon = "^1.24.0"
+twilio = "^7.7.0"
+python-decouple = "^3.6"
+
+[tool.poetry.dev-dependencies]
+python-lsp-server = "^1.3.3"
+pylint = "^2.12.2"
+mypy = "^0.931"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

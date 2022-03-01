@@ -1,0 +1,10 @@
+# env
+.direnv
+.env
+.envrc
+
+# python
+__pycache__
+
+# telethon
+*.session
